@@ -1,19 +1,19 @@
 package com.example.checkinsystem.user.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "user_registration")
+@Getter
+@Setter
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Increments by 1 versus GenerationType.AUTO generates random value.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  /* Increments by 1 versus GenerationType.AUTO generates random value. */
     private Long id;
     @Column
     private String firstName;
@@ -23,4 +23,9 @@ public class User {
     private String email;
     @Column
     private String password;
+
+    /*
+        Future implementation to create an email validation component.
+        Adding additional fields such as "locked" and "unlocked" when successfully verified.
+    */
 }

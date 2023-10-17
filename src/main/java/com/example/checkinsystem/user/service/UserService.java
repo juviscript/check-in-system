@@ -13,11 +13,11 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Email does not exist!"));
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Account does not exist with that email!"));
     }
 
-    public User findById(Long id) {
+    public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User does not exist by provided ID! :-("));
     }
 
@@ -26,6 +26,17 @@ public class UserService {
     }
 
     public User createNewUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalStateException("Email already registered to another user.");
+        }
         return userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new IllegalStateException("User does not exist.");
+        }
     }
 }

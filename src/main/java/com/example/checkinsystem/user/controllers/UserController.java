@@ -3,39 +3,40 @@ package com.example.checkinsystem.user.controllers;
 import com.example.checkinsystem.user.models.User;
 import com.example.checkinsystem.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")         /* CORS reference: https://reflectoring.io/spring-cors/ */
+@RequestMapping("/users")
 public class UserController {
-
-//    @Value("${app.version}")
-//    private String version;
-//    @GetMapping("/version")
-//    public String getVersion() {
-//        return "Application is up! On version: " + version;
-//    }
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/users/{$email}")
-    public User getUserByEmail(String email) {
-        return userService.findByEmail(email);
+    @GetMapping("/email/{email}")
+    public User getUserByEmail(@PathVariable("email") String email) {
+        return userService.findUserByEmail(email);
     }
 
-    public User getUserById(Long id) {
-        return userService.findById(id);
+    @GetMapping("/id/{id}")
+    public User getUserById(@PathVariable("id") Long id) {
+        return userService.findUserById(id);
     }
 
+    @PostMapping("/user")
+    public User createUser(@RequestBody User user) {
+        return userService.createNewUser(user);
+    }
 
-
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+    }
 }
