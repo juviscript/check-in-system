@@ -25,10 +25,12 @@ public class CheckInEntry {
     @Column
     public String email;
     @Column
+    public String phoneNumber;
+    @Column
     @Enumerated(EnumType.STRING)
     public CheckInDescription reasonForVisit;
     @Column
-    public boolean checkedIn;
+    public boolean checkedIn = false;
     @Column
     public LocalDateTime checkInDateTime = LocalDateTime.now();
 

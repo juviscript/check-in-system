@@ -1,27 +1,32 @@
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import CheckInTable from "./components/CheckInTable";
 import Navigation from "./components/Navigation";
 import Container from "react-bootstrap/Container";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { BiDownArrowAlt } from "react-icons/bi"
-import { Button } from "react-bootstrap";
-import CheckInEntry from "./components/CheckInEntry";
+import { BiDownArrowAlt } from "react-icons/bi";
+import CheckInForm from "./components/CheckInForm";
+
 
 function App() {
   return (
     <div className="App">
       <div>
         <Navigation />
-        <Container fluid className="my-5 py-3 w-75 rounded bs-light-text-emphasis">
-          <h2>Welcome to Checkr</h2>
-          <h5 className="mt-4"><BiDownArrowAlt /> Get started below <BiDownArrowAlt /> </h5>
-        </Container>
-        <Container>
-          <Button>Check-In</Button>
 
-          <CheckInEntry />
+        <Container
+          fluid
+          className="my-5 py-3 w-75 rounded bs-light-text-emphasis"
+        >
+          <h2>Welcome to Checkr</h2>
+          <h5 className="mt-4">
+            <BiDownArrowAlt /> Get started below <BiDownArrowAlt />{" "}
+          </h5>
         </Container>
         <CheckInTable />
+
+        <Container className={`my-5`}>
+          <CheckInForm />
+        </Container>
       </div>
     </div>
   );

@@ -27,10 +27,10 @@ function Navigation() {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Navbar.Text>
-            Have an account?   
-          </Navbar.Text>
           <Nav.Link href="#login" className="m-1">Sign In</Nav.Link>
+          /
+          <Nav.Link href="#login" className="m-1">Sign Up</Nav.Link>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>
