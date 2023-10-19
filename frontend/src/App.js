@@ -2,33 +2,30 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CheckInTable from "./components/CheckInTable";
 import Navigation from "./components/Navigation";
-import Container from "react-bootstrap/Container";
-import { BiDownArrowAlt } from "react-icons/bi";
+import Login from "./components/Login"
 import CheckInForm from "./components/CheckInForm";
-
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <div>
-        <Navigation />
+    <BrowserRouter>
+      <div className="App">
+        <div>
+          <Navigation />
+          
 
-        <Container
-          fluid
-          className="my-5 py-3 w-75 rounded bs-light-text-emphasis"
-        >
-          <h2>Welcome to Checkr</h2>
-          <h5 className="mt-4">
-            <BiDownArrowAlt /> Get started below <BiDownArrowAlt />{" "}
-          </h5>
-        </Container>
-        <CheckInTable />
 
-        <Container className={`my-5`}>
-          <CheckInForm />
-        </Container>
+          <Routes>
+            <Route path="/" element={<CheckInTable />} />
+            <Route path="/check-in" element={<CheckInForm />} />
+            <Route path="/editDetails/:id" element={<CheckInForm />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Login />} />
+
+          </Routes>
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

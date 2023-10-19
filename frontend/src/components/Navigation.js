@@ -2,6 +2,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import {Link} from "react-router-dom";
+
+
 
 function Navigation() {
   return (
@@ -12,9 +15,8 @@ function Navigation() {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+{/* 
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -25,11 +27,11 @@ function Navigation() {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
-          <Nav.Link href="#login" className="m-1">Sign In</Nav.Link>
+          <Nav.Link as={Link} to="/login">Sign In</Nav.Link>
           /
-          <Nav.Link href="#login" className="m-1">Sign Up</Nav.Link>
+          <Nav.Link as={Link} to="/login">Sign Up</Nav.Link>
 
         </Navbar.Collapse>
       </Container>

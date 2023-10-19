@@ -1,13 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import checkInService from "../service/checkInService";
+import Container from "react-bootstrap/Container";
+import checkInController from "../api/checkInController";
+import { useNavigate, useParams } from "react-router-dom";
+import { BiDownArrowAlt } from "react-icons/bi";
+
 
 const CheckInForm = () => {
-  /* Form validation */
-  const [showIt, setShowIt] = useState(true);
+  /* On render, verify if theres an (id) paramater passed in the url. If so, then do this: */
+
+  useEffect(() => {
+    if (id) {
+      checkInController
+        .getEntryById(id)
+        .then((entry) => {
+          setFirstName(entry.data.firstName);
+          setLastName(entry.data.lastName);
+          setEmail(entry.data.email);
+          setPhoneNumber(entry.data.phoneNumber);
+          setReasonForVisit(entry.data.reasonForVisit);
+          console.log(checkInController.getEntryById(id));
+        })
+
+        .catch((error) => {
+          console.log(
+            "Employee unable to be saved in the database. What are we gonna do!?!?!",
+            error
+          );
+        });
+    }
+  }, []);
+
+  /* Form validation after submitting. */
   const [validated, setValidated] = useState(false);
 
   const validation = (event) => {
@@ -25,35 +52,57 @@ const CheckInForm = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [reasonForVisit, setReasonForVisit] = useState("");
+  const history = useNavigate();
+  const { id } = useParams();
 
+  /* Save after submit function. */
   const saveEntry = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
-    const entry = { firstName, lastName, email, phoneNumber, reasonForVisit };
-    checkInService
-      .createNewEntry(entry)
-      .then((response) => {
-        console.log("New check-in entry added successfully!", response.data);
-      })
-      .catch((error) => {
-        console.log("Something went horribly wrong! Don't panic!", error);
-      });
+    const entry = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      reasonForVisit,
+      id,
+    };
+
+    if (id) {
+      checkInController
+        .updateEntry(entry)
+        .then((response) => {
+          console.log("New check-in entry added successfully!", response.data);
+          history("/");
+        })
+        .catch((error) => {
+          console.log("Something went horribly wrong! Don't panic!", error);
+        });
+    } else {
+      checkInController
+        .createNewEntry(entry)
+        .then((response) => {
+          console.log("New check-in entry added successfully!", response.data);
+          history("/");
+        })
+        .catch((error) => {
+          console.log("Something went horribly wrong! Don't panic!", error);
+        });
+    }
   };
 
   return (
     <div>
-      <Button
-        onClick={() => setShowIt(!showIt)}
-        style={{ display: showIt ? "" : "none" }}
+      <Container
+        fluid
+        className="my-5 py-3 w-75 rounded bs-light-text-emphasis"
       >
-        Check-In
-      </Button>
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={validation}
-        style={{ display: showIt ? "none" : "block" }}
-      >
+        <h2>Welcome to Checkr</h2>
+        <h5 className="mt-4">
+          <BiDownArrowAlt /> Get started below <BiDownArrowAlt />
+        </h5>
+      </Container>
+      <Form noValidate validated={validated} onSubmit={validation}>
         <Row className="mb-3 justify-content-center">
           <Form.Group as={Col} md="5" controlId="validationCustom01">
             <Form.Label>First name</Form.Label>
@@ -61,6 +110,7 @@ const CheckInForm = () => {
               required
               type="text"
               placeholder="First name"
+              value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -71,6 +121,7 @@ const CheckInForm = () => {
               required
               type="text"
               placeholder="Last name"
+              value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -82,6 +133,7 @@ const CheckInForm = () => {
             <Form.Control
               type="email"
               placeholder="Email"
+              value={email}
               required
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -94,9 +146,10 @@ const CheckInForm = () => {
             <Form.Control
               type="number"
               placeholder="(###) ###-####"
+              value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type="invalid" value={reasonForVisit}>
               Please provide a valid phone number.
             </Form.Control.Feedback>
           </Form.Group>
@@ -107,6 +160,7 @@ const CheckInForm = () => {
             <Form.Select
               aria-label="--"
               onChange={(e) => setReasonForVisit(e.target.value)}
+              required
             >
               <option>--</option>
               <option value="SLEEPY">Sleepy</option>
@@ -125,9 +179,3 @@ const CheckInForm = () => {
 };
 
 export default CheckInForm;
-
-/*
-
-TODO: Figure out a way to make the form appear when selecting "Check In" button on home page.
-
-*/
