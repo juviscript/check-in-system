@@ -39,4 +39,8 @@ public class UserService {
             throw new IllegalStateException("User does not exist.");
         }
     }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
 }

@@ -27,9 +27,14 @@ public class CheckInController {
         return checkInService.getEntryByEmail(email);
     }
 
-    @GetMapping("/entries/{id}")
+    @GetMapping("/entries/id/{id}")
     public CheckInEntry getEntryById(@PathVariable("id") Long id) {
         return checkInService.getEntryById(id);
+    }
+
+    @PutMapping("/entries")
+    public CheckInEntry updateEntry(@RequestBody CheckInEntry entry) {
+        return checkInService.updateEntry(entry);
     }
 
     @PostMapping("/entries")

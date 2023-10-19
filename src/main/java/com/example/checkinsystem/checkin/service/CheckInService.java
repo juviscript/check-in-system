@@ -19,7 +19,6 @@ public class CheckInService {
 
     public CheckInEntry getEntryById(Long id) {
         return checkInRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Entry not found."));
-
     }
 
     public CheckInEntry getEntryByEmail(String email) {
@@ -28,6 +27,10 @@ public class CheckInService {
 
     public CheckInEntry getEntryByLastName(String lastName) {
         return checkInRepository.findByLastName(lastName).orElseThrow(() -> new IllegalArgumentException("No check-in entries associated with last name. Double check the spelling and try again, or check in again!"));
+    }
+
+    public CheckInEntry updateEntry(CheckInEntry entry) {
+        return checkInRepository.save(entry);
     }
 
     public CheckInEntry createNewEntry(CheckInEntry entry) {
