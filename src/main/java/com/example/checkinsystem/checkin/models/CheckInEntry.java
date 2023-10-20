@@ -38,6 +38,4 @@ public class CheckInEntry {
 
 /*
 *
-*   TODO: Create a phone number field. Drop table and re-run application.
-*
 */

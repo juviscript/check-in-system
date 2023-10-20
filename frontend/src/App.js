@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CheckInTable from "./components/CheckInTable";
 import Navigation from "./components/Navigation";
-import Login from "./components/Login"
+import Login from "./components/Login";
 import CheckInForm from "./components/CheckInForm";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
@@ -12,17 +12,14 @@ function App() {
       <div className="App">
         <div>
           <Navigation />
-          
-
-
           <Routes>
             <Route path="/" element={<CheckInTable />} />
             <Route path="/check-in" element={<CheckInForm />} />
             <Route path="/editDetails/:id" element={<CheckInForm />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Login />} />
-
           </Routes>
+
         </div>
       </div>
     </BrowserRouter>
